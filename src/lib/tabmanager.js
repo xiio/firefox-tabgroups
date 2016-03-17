@@ -53,6 +53,24 @@ TabManager.prototype = {
   },
 
   /**
+   * Move tab beetwen groups
+   *
+   * @param {ChromeWindow} chromeWindow
+   * @param {TabBrowser} tabBrowser
+   * @param {Number} tabIndex - the tabs index
+   * @param {Number} targetGroupID - target groupID (where to move tab)
+   */
+  moveTabToGroup: function(chromeWindow, tabBrowser, tabIndex, targetGroupID){
+	let tab = tabBrowser.tabs[tabIndex];
+    if (tab.groupID === targetGroupID){
+      return;
+    }
+    this._storage.setTabGroup(tab, targetGroupID);
+	let currentGroup = this._storage.getCurrentGroup(chromeWindow);
+    this.showGroup(chromeWindow, tabBrowser, currentGroup); //refresh tabs view
+  },
+
+  /**
    * Selects a given group.
    *
    * @param {ChromeWindow} chromeWindow
@@ -66,6 +84,18 @@ TabManager.prototype = {
       return;
     }
 
+    this.showGroup(chromeWindow, tabBrowser, groupID, tabIndex);
+  },
+
+  /**
+   * Show a given group.
+   *
+   * @param {ChromeWindow} chromeWindow
+   * @param {TabBrowser} tabBrowser
+   * @param {Number} groupID - the groupID
+   * @param {Number} tabIndex - the tab to activate
+   */
+  showGroup: function(chromeWindow, tabBrowser, groupID, tabIndex = 0){
     this.updateCurrentSelectedTab(chromeWindow);
 
     let lastSelected = this._storage.getGroupSelectedIndex(chromeWindow, groupID);
@@ -172,6 +202,7 @@ TabManager.prototype = {
 
     this._storage.removeGroupTabs(tabBrowser, groupID);
   }
+
 };
 
 exports.TabManager = TabManager;

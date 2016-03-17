@@ -2,9 +2,12 @@ const Group = React.createClass({
   propTypes: {
     group: React.PropTypes.object.isRequired,
     onGroupClick: React.PropTypes.func,
+    onGroupDrop: React.PropTypes.func,
     onGroupCloseClick: React.PropTypes.func,
     onGroupTitleChange: React.PropTypes.func,
     onTabClick: React.PropTypes.func,
+    onTabDrag: React.PropTypes.func,
+    onTabDragStart: React.PropTypes.func,
     uiHeightChanged: React.PropTypes.func
   },
 
@@ -12,6 +15,8 @@ const Group = React.createClass({
     return {
       editing: false,
       expanded: false,
+      draggingOver: false,
+      dragSourceGroup: false,
       newTitle: this.getTitle()
     };
   },
@@ -49,6 +54,8 @@ const Group = React.createClass({
     let groupClasses = classNames({
       active: this.props.group.active,
       editing: this.state.editing,
+      draggingOver: this.state.draggingOver,
+      dragSourceGroup: this.state.dragSourceGroup,
       expanded: this.state.expanded,
       group: true
     });
@@ -57,7 +64,11 @@ const Group = React.createClass({
       React.DOM.li(
         {
           className: groupClasses,
-          onClick: this.handleGroupClick
+          onClick: this.handleGroupClick,
+          onDragOver: this.handleGroupDragOver,
+          onDragEnter: this.handleGroupDragEnter,
+          onDragLeave: this.handleGroupDragLeave,
+          onDrop: this.handleGroupDrop
         },
         React.DOM.span(
           {
@@ -81,7 +92,9 @@ const Group = React.createClass({
           TabList,
           {
             tabs: this.props.group.tabs,
-            onTabClick: this.props.onTabClick
+            onTabClick: this.props.onTabClick,
+            onTabDrag: this.props.onTabDrag,
+            onTabDragStart: this.props.onTabDragStart
           }
         )
       )
@@ -124,5 +137,54 @@ const Group = React.createClass({
       this.setState({editing: false});
       this.props.onGroupTitleChange(this.props.group.id, this.state.newTitle);
     }
-  }
+  },
+
+  handleGroupDrop: function(event) {
+    event.stopPropagation();
+
+    this.setState({draggingOver: false});
+    this._dragDropCounter = 0;
+
+    var source_group = event.dataTransfer.getData('tab/group');
+    var tab_index = event.dataTransfer.getData('tab/index');
+
+    this.props.onGroupDrop(
+        source_group,
+        tab_index,
+        this.props.group.id
+    );
+  },
+
+  handleGroupDragOver: function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  },
+
+  handleGroupDragEnter: function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    var source_group = event.dataTransfer.getData('tab/group');
+    if (source_group == this.props.group.id){
+       this.setState({dragSourceGroup: true});
+    } else {
+      this.setState({dragSourceGroup: false});
+    }
+
+    this._dragDropCounter++;
+    this.setState({draggingOver: true});
+  },
+
+  handleGroupDragLeave: function(event) {
+    event.stopPropagation();
+    event.preventDefault()
+
+    this._dragDropCounter--;
+    if (this._dragDropCounter===0){
+      this.setState({draggingOver: false});
+    }
+  },
+
+  _dragDropCounter: 0
+
 });
