@@ -181,6 +181,7 @@ TabGroups.prototype = {
     this._groupsPanel.on("show", this.refreshUi.bind(this));
 
     this._groupsPanel.port.on("Group:Add", this.onGroupAdd.bind(this));
+    this._groupsPanel.port.on("Group:AddWithTab", this.onGroupAddWithTab.bind(this));
     this._groupsPanel.port.on("Group:Close", this.onGroupClose.bind(this));
     this._groupsPanel.port.on("Group:Rename", this.onGroupRename.bind(this));
     this._groupsPanel.port.on("Group:Select", this.onGroupSelect.bind(this));
@@ -214,6 +215,15 @@ TabGroups.prototype = {
   onGroupAdd: function() {
     this._tabs.addGroup(
       this._getWindow()
+    );
+    this.refreshUi();
+  },
+
+  onGroupAddWithTab: function(event) {
+    this._tabs.addGroupWithTab(
+      this._getWindow(),
+      this._getTabBrowser(),
+      event.tabIndex
     );
     this.refreshUi();
   },

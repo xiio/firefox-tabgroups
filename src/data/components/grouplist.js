@@ -3,6 +3,7 @@ const GroupList = (() => {
     propTypes: {
       groups: React.PropTypes.object.isRequired,
       onGroupAddClick: React.PropTypes.func,
+      onGroupAddDrop: React.PropTypes.func,
       onGroupClick: React.PropTypes.func,
       onGroupDrop: React.PropTypes.func,
       onGroupCloseClick: React.PropTypes.func,
@@ -37,7 +38,8 @@ const GroupList = (() => {
         React.createElement(
           GroupAddButton,
           {
-            onClick: this.props.onGroupAddClick
+            onClick: this.props.onGroupAddClick,
+            onDrop: this.props.onGroupAddDrop
           }
         )
       );

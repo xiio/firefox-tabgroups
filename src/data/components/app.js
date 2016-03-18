@@ -1,6 +1,7 @@
 const App = React.createClass({
   propTypes: {
     onGroupAddClick: React.PropTypes.func,
+    onGroupAddDrop: React.PropTypes.func,
     onGroupClick: React.PropTypes.func,
     onGroupDrop: React.PropTypes.func,
     onGroupCloseClick: React.PropTypes.func,
