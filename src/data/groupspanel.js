@@ -5,6 +5,10 @@ const Actions = {
     addon.port.emit("Group:Add");
   },
 
+  addGroupWithTab: function(sourceGroupID, tabIndex) {
+    addon.port.emit("Group:AddWithTab", {sourceGroupID, tabIndex});
+  },
+
   closeGroup: function(groupID) {
     addon.port.emit("Group:Close", {groupID});
   },
@@ -24,7 +28,7 @@ const Actions = {
     addon.port.emit("Group:Select", {groupID});
   },
 
-  dropOnGroup: function(sourceGroupID, tabIndex, targetGroupID) {
+  moveTabToGroup: function(sourceGroupID, tabIndex, targetGroupID) {
     addon.port.emit("Group:Drop", {sourceGroupID, tabIndex, targetGroupID});
   },
 
@@ -48,8 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
       {store: store},
       React.createElement(App, {
         onGroupAddClick: Actions.addGroup,
+        onGroupAddDrop: Actions.addGroupWithTab,
         onGroupClick: Actions.selectGroup,
-        onGroupDrop: Actions.dropOnGroup,
+        onGroupDrop: Actions.moveTabToGroup,
         onGroupCloseClick: Actions.closeGroup,
         onGroupTitleChange: Actions.renameGroup,
         onTabClick: Actions.selectTab,

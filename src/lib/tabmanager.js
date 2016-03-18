@@ -187,6 +187,38 @@ TabManager.prototype = {
   },
 
   /**
+   * Adds a group with associated tab
+   *
+   * @param {ChromeWindow} chromeWindow
+   * @param {TabBrowser} tabBrowser
+   * @param {Number} tabIndex - the tab to place into group
+   */
+  addGroupWithTab: function(chromeWindow, tabBrowser, tabIndex) {
+    this._storage.addGroup(chromeWindow);
+    let group = this.getRecentlyAddedGroup(chromeWindow);
+    this.moveTabToGroup(
+      chromeWindow,
+      tabBrowser,
+      tabIndex,
+      group.id
+    );
+  },
+
+  /**
+   * Return recently added group
+   *
+   * @param {ChromeWindow} chromeWindow
+   */
+  getRecentlyAddedGroup: function(chromeWindow){
+    let currentGoups = this._storage.getGroups(chromeWindow);
+    let recentlyAddedGroup = null;
+    if (currentGoups.length>0){
+      recentlyAddedGroup = currentGoups[currentGoups.length-1];
+    }
+    return recentlyAddedGroup;
+  },
+
+  /**
    * Closes a group and all attached tabs
    *
    * @param {Number} groupID - the groupID
