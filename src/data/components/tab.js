@@ -1,6 +1,8 @@
 const Tab = React.createClass({
   propTypes: {
     onTabClick: React.PropTypes.func,
+    onTabDrag: React.PropTypes.func,
+    onTabDragStart: React.PropTypes.func,
     tab: React.PropTypes.object.isRequired
   },
 
@@ -23,7 +25,10 @@ const Tab = React.createClass({
       React.DOM.li(
         {
           className: tabClasses,
-          onClick: this.handleTabClick
+          onClick: this.handleTabClick,
+          onDrag: this.handleTabDrag,
+          onDragStart: this.handleTabDragStart,
+          draggable: true
         },
         favicon,
         React.DOM.span({className: "tab-title"}, this.props.tab.title)
