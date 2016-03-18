@@ -36,8 +36,8 @@ const Actions = {
     addon.port.emit("Tab:Drag", {groupID, tabIndex});
   },
 
-  dragTabStart: function(groupID, tabIndex,tab ) {
-    addon.port.emit("Tab:DragStart", {groupID, tabIndex, tab});
+  dragTabStart: function(groupID, tabIndex) {
+    addon.port.emit("Tab:DragStart", {groupID, tabIndex});
   }
 };
 

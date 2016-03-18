@@ -1,74 +1,69 @@
 const Tab = React.createClass({
-	propTypes: {
-		onTabClick: React.PropTypes.func,
-		onTabDrag: React.PropTypes.func,
-		onTabDragStart: React.PropTypes.func,
-		tab: React.PropTypes.object.isRequired
-	},
+  propTypes: {
+    onTabClick: React.PropTypes.func,
+    tab: React.PropTypes.object.isRequired
+  },
 
-	render: function () {
-		let favicon;
-		if (this.props.tab.icon) {
-			favicon = React.DOM.img({
-				alt: "",
-				className: "tab-icon",
-				src: this.props.tab.icon
-			});
-		}
+  render: function () {
+    let favicon;
+    if (this.props.tab.icon) {
+      favicon = React.DOM.img({
+        alt: "",
+        className: "tab-icon",
+        src: this.props.tab.icon
+      });
+    }
 
-		let tabClasses = classNames({
-			active: this.props.tab.active,
-			tab: true
-		});
+    let tabClasses = classNames({
+      active: this.props.tab.active,
+      tab: true
+    });
 
-		return (
-			React.DOM.li(
-				{
-					className: tabClasses,
-					onClick: this.handleTabClick,
-					onDrag: this.handleTabDrag,
-					onDragStart: this.handleTabDragStart,
-					draggable: true
-				},
-				favicon,
-				React.DOM.span({className: "tab-title"}, this.props.tab.title)
-			)
-		);
-	},
+    return (
+      React.DOM.li(
+        {
+          className: tabClasses,
+          onClick: this.handleTabClick
+        },
+        favicon,
+        React.DOM.span({className: "tab-title"}, this.props.tab.title)
+      )
+    );
+  },
 
-	handleTabClick: function (event) {
-		event.stopPropagation();
+  handleTabClick: function (event) {
+    event.stopPropagation();
 
-		let tab = this.props.tab;
-		this.props.onTabClick(
-			tab.group,
-			tab.index
-		);
-	},
+    let tab = this.props.tab;
+    this.props.onTabClick(
+      tab.group,
+      tab.index
+    );
+  },
 
-	handleTabDrag: function (event) {
-		event.stopPropagation();
+  handleTabDrag: function (event) {
+    event.stopPropagation();
 
-		let tab = this.props.tab;
-		event.dataTransfer.setData('tab/index', tab.index);
-		event.dataTransfer.setData('tab/group', tab.group);
+    let tab = this.props.tab;
+    event.dataTransfer.setData('tab/index', tab.index);
+    event.dataTransfer.setData('tab/group', tab.group);
 
-		this.props.onTabDrag(
-			tab.group,
-			tab.index
-		);
-	},
+    this.props.onTabDrag(
+      tab.group,
+      tab.index
+    );
+  },
 
-	handleTabDragStart: function (event) {
-		event.stopPropagation();
+  handleTabDragStart: function (event) {
+    event.stopPropagation();
 
-		let tab = this.props.tab;
-		event.dataTransfer.setData('tab/index', tab.index);
-		event.dataTransfer.setData('tab/group', tab.group);
+    let tab = this.props.tab;
+    event.dataTransfer.setData('tab/index', tab.index);
+    event.dataTransfer.setData('tab/group', tab.group);
 
-		this.props.onTabDragStart(
-			tab.group,
-			tab.index
-		);
-	},
+    this.props.onTabDragStart(
+      tab.group,
+      tab.index
+    );
+  },
 });

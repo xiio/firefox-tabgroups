@@ -145,12 +145,12 @@ const Group = React.createClass({
     this.setState({draggingOver: false});
     this._dragDropCounter = 0;
 
-    var source_group = event.dataTransfer.getData('tab/group');
-    var tab_index = event.dataTransfer.getData('tab/index');
+    var sourceGroup = event.dataTransfer.getData('tab/group');
+    var tabIndex = event.dataTransfer.getData('tab/index');
 
     this.props.onGroupDrop(
-        source_group,
-        tab_index,
+        sourceGroup,
+        tabIndex,
         this.props.group.id
     );
   },
@@ -164,9 +164,9 @@ const Group = React.createClass({
     event.stopPropagation();
     event.preventDefault();
 
-    var source_group = event.dataTransfer.getData('tab/group');
-    if (source_group == this.props.group.id){
-       this.setState({dragSourceGroup: true});
+    var sourceGroup = event.dataTransfer.getData('tab/group');
+    if (sourceGroup == this.props.group.id){
+      this.setState({dragSourceGroup: true});
     } else {
       this.setState({dragSourceGroup: false});
     }
