@@ -10,7 +10,7 @@ const GroupList = (() => {
       onGroupTitleChange: React.PropTypes.func,
       onTabClick: React.PropTypes.func,
       onTabDrag: React.PropTypes.func,
-      onTabDragStart:  React.PropTypes.func,
+      onTabDragStart: React.PropTypes.func,
       uiHeightChanged: React.PropTypes.func
     },
 

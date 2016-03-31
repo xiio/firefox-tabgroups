@@ -11,7 +11,6 @@ const GroupAddButton = React.createClass({
   },
 
   render: function() {
-
     let buttonClasses = classNames({
       draggingOver: this.state.draggingOver,
       group: true
@@ -55,10 +54,10 @@ const GroupAddButton = React.createClass({
 
   handleDragLeave: function(event) {
     event.stopPropagation();
-    event.preventDefault()
+    event.preventDefault();
 
     this._dragDropCounter--;
-    if (this._dragDropCounter===0){
+    if (this._dragDropCounter === 0) {
       this.setState({draggingOver: false});
     }
   },
@@ -69,12 +68,12 @@ const GroupAddButton = React.createClass({
     this.setState({draggingOver: false});
     this._dragDropCounter = 0;
 
-    var sourceGroup = event.dataTransfer.getData('tab/group');
-    var tabIndex = event.dataTransfer.getData('tab/index');
+    var sourceGroup = event.dataTransfer.getData("tab/group");
+    var tabIndex = event.dataTransfer.getData("tab/index");
 
     this.props.onDrop(
-        sourceGroup,
-        tabIndex
+      sourceGroup,
+      tabIndex
     );
   },
 

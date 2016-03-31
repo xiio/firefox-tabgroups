@@ -6,7 +6,7 @@ const Tab = React.createClass({
     tab: React.PropTypes.object.isRequired
   },
 
-  render: function () {
+  render: function() {
     let favicon;
     if (this.props.tab.icon) {
       favicon = React.DOM.img({
@@ -36,7 +36,7 @@ const Tab = React.createClass({
     );
   },
 
-  handleTabClick: function (event) {
+  handleTabClick: function(event) {
     event.stopPropagation();
 
     let tab = this.props.tab;
@@ -46,12 +46,12 @@ const Tab = React.createClass({
     );
   },
 
-  handleTabDrag: function (event) {
+  handleTabDrag: function(event) {
     event.stopPropagation();
 
     let tab = this.props.tab;
-    event.dataTransfer.setData('tab/index', tab.index);
-    event.dataTransfer.setData('tab/group', tab.group);
+    event.dataTransfer.setData("tab/index", tab.index);
+    event.dataTransfer.setData("tab/group", tab.group);
 
     this.props.onTabDrag(
       tab.group,
@@ -59,16 +59,16 @@ const Tab = React.createClass({
     );
   },
 
-  handleTabDragStart: function (event) {
+  handleTabDragStart: function(event) {
     event.stopPropagation();
 
     let tab = this.props.tab;
-    event.dataTransfer.setData('tab/index', tab.index);
-    event.dataTransfer.setData('tab/group', tab.group);
+    event.dataTransfer.setData("tab/index", tab.index);
+    event.dataTransfer.setData("tab/group", tab.group);
 
     this.props.onTabDragStart(
       tab.group,
       tab.index
     );
-  },
+  }
 });

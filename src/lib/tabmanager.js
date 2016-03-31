@@ -209,11 +209,11 @@ TabManager.prototype = {
    *
    * @param {ChromeWindow} chromeWindow
    */
-  getRecentlyAddedGroup: function(chromeWindow){
+  getRecentlyAddedGroup: function(chromeWindow) {
     let currentGoups = this._storage.getGroups(chromeWindow);
     let recentlyAddedGroup = null;
-    if (currentGoups.length>0){
-      recentlyAddedGroup = currentGoups[currentGoups.length-1];
+    if (currentGoups.length > 0) {
+      recentlyAddedGroup = currentGoups[currentGoups.length - 1];
     }
     return recentlyAddedGroup;
   },

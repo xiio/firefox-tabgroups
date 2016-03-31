@@ -27,8 +27,8 @@ const Group = React.createClass({
 
   getTitle: function() {
     return this.props.group.title || (
-      addon.options.l10n.unnamed_group + " " + this.props.group.id
-    );
+        addon.options.l10n.unnamed_group + " " + this.props.group.id
+      );
   },
 
   render: function() {
@@ -145,13 +145,13 @@ const Group = React.createClass({
     this.setState({draggingOver: false});
     this._dragDropCounter = 0;
 
-    var sourceGroup = event.dataTransfer.getData('tab/group');
-    var tabIndex = event.dataTransfer.getData('tab/index');
+    var sourceGroup = event.dataTransfer.getData("tab/group");
+    var tabIndex = event.dataTransfer.getData("tab/index");
 
     this.props.onGroupDrop(
-        sourceGroup,
-        tabIndex,
-        this.props.group.id
+      sourceGroup,
+      tabIndex,
+      this.props.group.id
     );
   },
 
@@ -164,8 +164,8 @@ const Group = React.createClass({
     event.stopPropagation();
     event.preventDefault();
 
-    var sourceGroup = event.dataTransfer.getData('tab/group');
-    if (sourceGroup == this.props.group.id){
+    var sourceGroup = event.dataTransfer.getData("tab/group");
+    if (sourceGroup == this.props.group.id) {
       this.setState({dragSourceGroup: true});
     } else {
       this.setState({dragSourceGroup: false});
@@ -177,10 +177,10 @@ const Group = React.createClass({
 
   handleGroupDragLeave: function(event) {
     event.stopPropagation();
-    event.preventDefault()
+    event.preventDefault();
 
     this._dragDropCounter--;
-    if (this._dragDropCounter===0){
+    if (this._dragDropCounter === 0) {
       this.setState({draggingOver: false});
     }
   },
