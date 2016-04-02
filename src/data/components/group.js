@@ -15,7 +15,7 @@ const Group = React.createClass({
     return {
       editing: false,
       expanded: false,
-      draggingOver: false,
+      draggingOverCounter: 0,
       dragSourceGroup: false,
       newTitle: this.getTitle()
     };
@@ -54,7 +54,7 @@ const Group = React.createClass({
     let groupClasses = classNames({
       active: this.props.group.active,
       editing: this.state.editing,
-      draggingOver: this.state.draggingOver,
+      draggingOver: this.state.draggingOverCounter !== 0,
       dragSourceGroup: this.state.dragSourceGroup,
       expanded: this.state.expanded,
       group: true
@@ -94,7 +94,8 @@ const Group = React.createClass({
             tabs: this.props.group.tabs,
             onTabClick: this.props.onTabClick,
             onTabDrag: this.props.onTabDrag,
-            onTabDragStart: this.props.onTabDragStart
+            onTabDragStart: this.props.onTabDragStart,
+            onTabDragEnd: this.props.onTabDragEnd
           }
         )
       )
@@ -142,11 +143,10 @@ const Group = React.createClass({
   handleGroupDrop: function(event) {
     event.stopPropagation();
 
-    this.setState({draggingOver: false});
-    this._dragDropCounter = 0;
+    this.setState({draggingOverCounter: 0});
 
-    var sourceGroup = event.dataTransfer.getData("tab/group");
-    var tabIndex = event.dataTransfer.getData("tab/index");
+    let sourceGroup = event.dataTransfer.getData("tab/group");
+    let tabIndex = event.dataTransfer.getData("tab/index");
 
     this.props.onGroupDrop(
       sourceGroup,
@@ -158,33 +158,31 @@ const Group = React.createClass({
   handleGroupDragOver: function(event) {
     event.stopPropagation();
     event.preventDefault();
+    return false;
   },
 
   handleGroupDragEnter: function(event) {
     event.stopPropagation();
     event.preventDefault();
 
-    var sourceGroup = event.dataTransfer.getData("tab/group");
-    if (sourceGroup == this.props.group.id) {
-      this.setState({dragSourceGroup: true});
-    } else {
-      this.setState({dragSourceGroup: false});
-    }
+    let sourceGroupId = event.dataTransfer.getData("tab/group");
+    let isSourceGroup = sourceGroupId == this.props.group.id;
+    this.setState({dragSourceGroup: isSourceGroup});
 
-    this._dragDropCounter++;
-    this.setState({draggingOver: true});
+    let draggingCounterValue = (this.state.draggingOverCounter == 1) ? 2 : 1;
+    this.setState({draggingOverCounter: draggingCounterValue});
   },
 
   handleGroupDragLeave: function(event) {
     event.stopPropagation();
     event.preventDefault();
 
-    this._dragDropCounter--;
-    if (this._dragDropCounter === 0) {
-      this.setState({draggingOver: false});
+    if (this.state.draggingOverCounter == 2) {
+      this.setState({draggingOverCounter: 1});
+    } else if (this.state.draggingOverCounter == 1) {
+      this.setState({draggingOverCounter: 0});
     }
-  },
 
-  _dragDropCounter: 0
-
+    return false;
+  }
 });

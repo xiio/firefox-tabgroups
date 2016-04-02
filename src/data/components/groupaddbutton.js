@@ -6,13 +6,13 @@ const GroupAddButton = React.createClass({
 
   getInitialState: function() {
     return {
-      draggingOver: false
+      draggingOverCounter: 0
     };
   },
 
   render: function() {
     let buttonClasses = classNames({
-      draggingOver: this.state.draggingOver,
+      draggingOver: this.state.draggingOverCounter !== 0,
       group: true
     });
 
@@ -48,35 +48,32 @@ const GroupAddButton = React.createClass({
     event.stopPropagation();
     event.preventDefault();
 
-    this._dragDropCounter++;
-    this.setState({draggingOver: true});
+    let draggingCounterValue = (this.state.draggingOverCounter == 1) ? 2 : 1;
+    this.setState({draggingOverCounter: draggingCounterValue});
   },
 
   handleDragLeave: function(event) {
     event.stopPropagation();
     event.preventDefault();
 
-    this._dragDropCounter--;
-    if (this._dragDropCounter === 0) {
-      this.setState({draggingOver: false});
+    if (this.state.draggingOverCounter == 2) {
+      this.setState({draggingOverCounter: 1});
+    } else if (this.state.draggingOverCounter == 1) {
+      this.setState({draggingOverCounter: 0});
     }
   },
 
   handleDrop: function(event) {
     event.stopPropagation();
 
-    this.setState({draggingOver: false});
-    this._dragDropCounter = 0;
+    this.setState({draggingOverCounter: 0});
 
-    var sourceGroup = event.dataTransfer.getData("tab/group");
-    var tabIndex = event.dataTransfer.getData("tab/index");
+    let sourceGroup = event.dataTransfer.getData("tab/group");
+    let tabIndex = event.dataTransfer.getData("tab/index");
 
     this.props.onDrop(
       sourceGroup,
       tabIndex
     );
-  },
-
-  _dragDropCounter: 0
-
+  }
 });

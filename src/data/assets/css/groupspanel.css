@@ -50,14 +50,14 @@ ul, li {
     border-color: rgba(0, 0, 0, 0.12);
   }
 
-  .group.draggingOver {
-    border: 1px dashed #ccc;
-    background-color: rgba(0, 0, 0, 0.04);
+  .group.dragSourceGroup {
+    border: inherit;
+    background-color : inherit;
   }
 
-  .group.dragSourceGroup.draggingOver {
-    border: inherit;
-    background-color:inherit;
+   .group.draggingOver, .draggingOver {
+    border: 1px dashed #ccc;
+    background-color: rgba(0, 0, 0, 0.04);
   }
 
 .tab-list {
