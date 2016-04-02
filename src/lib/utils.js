@@ -1,5 +1,6 @@
 const _ = require("sdk/l10n").get;
 const PrefService = require("sdk/preferences/service");
+const {Cc, Ci} = require("chrome");
 
 /**
  * Returns an object of translated strings for the use in the frontend.
@@ -36,4 +37,18 @@ exports.themeSwitch = function(object) {
   }
 
   return retValue;
+};
+
+/**
+ * Confirm prompt service.
+ *
+ * @param {String} title - title of confirm prompt
+ * @param {String} message - question
+ * @returns {boolean} TRUE if user confirm, FALSE otherwise
+ */
+exports.confirm = function(title, message) {
+  let prompts = Cc["@mozilla.org/embedcomp/prompt-service;1"]
+                      .getService(Ci.nsIPromptService);
+
+  return prompts.confirm(null, title, message);
 };

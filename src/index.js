@@ -37,6 +37,7 @@ TabGroups.prototype = {
 
   bindEvents: function() {
     this.bindHotkeyPreference();
+    this.bindGroupPreference();
     this.bindPanelButtonEvents();
     this.bindPanelEvents();
     this.bindTabEvents();
@@ -50,7 +51,8 @@ TabGroups.prototype = {
         l10n: Utils.getL10nStrings([
           "add_group",
           "unnamed_group"
-        ])
+        ]),
+        groupCloseTimeout: Prefs.prefs.groupCloseTimeout
       }
     });
   },
@@ -159,6 +161,16 @@ TabGroups.prototype = {
     });
   },
 
+  bindGroupPreference: function() {
+    let emitCloseTimeoutChange = () => {
+      this._groupsPanel.port.emit("Groups:CloseTimeoutChanged", Prefs.prefs.groupCloseTimeout);
+    };
+
+    Prefs.on("groupCloseTimeout", emitCloseTimeoutChange);
+
+    emitCloseTimeoutChange();
+  },
+
   bindPanelButtonEvents: function() {
     this._panelButton.on("change", (state) => {
       if (!state.checked) {
@@ -229,6 +241,21 @@ TabGroups.prototype = {
   },
 
   onGroupClose: function(event) {
+    let groupTabCount = this._tabs.getGroupTabCount(
+      this._getTabBrowser(),
+      event.groupID
+    );
+
+    if (groupTabCount > 0) {
+      let closeGroupConfirmed = this._closeGroupConfirmation();
+
+      this._groupsPanel.show({position: this._panelButton});
+
+      if (!closeGroupConfirmed) {
+        return;
+      }
+    }
+
     this._tabs.closeGroup(
       this._getWindow(),
       this._getTabBrowser(),
@@ -281,6 +308,13 @@ TabGroups.prototype = {
 
   _getTabBrowser: function() {
     return TabsUtils.getTabBrowser(this._getWindow());
+  },
+
+  _closeGroupConfirmation: function() {
+    let promptTitle = _("close_group_prompt_title");
+    let promptMessage = _("close_group_prompt_message");
+
+    return Utils.confirm(promptTitle, promptMessage);
   }
 };
 

@@ -1,17 +1,19 @@
 const GroupControls = React.createClass({
   propTypes: {
+    closeTimer: React.PropTypes.number,
     expanded: React.PropTypes.bool.isRequired,
     onClose: React.PropTypes.func,
     onEdit: React.PropTypes.func,
     onEditAbort: React.PropTypes.func,
     onEditSave: React.PropTypes.func,
-    onExpand: React.PropTypes.func
+    onExpand: React.PropTypes.func,
+    onUndoCloseClick: React.PropTypes.func
   },
 
-  render: function() {
-    let editControls;
+  getEditControls: function() {
+    let controls;
     if (this.props.editing) {
-      editControls = [
+      controls = [
         React.DOM.i({
           className: "group-edit fa fa-fw fa-check",
           onClick: this.props.onEditSave
@@ -22,10 +24,34 @@ const GroupControls = React.createClass({
         })
       ];
     } else {
-      editControls = React.DOM.i({
+      controls = React.DOM.i({
         className: "group-edit fa fa-fw fa-pencil",
         onClick: this.props.onEdit
       });
+    }
+
+    return controls;
+  },
+
+  getClosingControls: function() {
+    return [
+      React.DOM.span(
+        {className: "group-close-undo-timer"},
+        this.props.closeTimer
+      ),
+      React.DOM.i({
+        className: "group-close-undo fa fa-fw fa-undo",
+        onClick: this.props.onUndoCloseClick
+      })
+    ];
+  },
+
+  render: function() {
+    let groupControls;
+    if (this.props.closing) {
+      groupControls = this.getClosingControls();
+    } else {
+      groupControls = this.getEditControls();
     }
 
     let expanderClasses = classNames({
@@ -40,7 +66,7 @@ const GroupControls = React.createClass({
       {
         className: "group-controls"
       },
-      editControls,
+      groupControls,
       React.DOM.i({
         className: "group-close fa fa-fw fa-times",
         onClick: this.props.onClose

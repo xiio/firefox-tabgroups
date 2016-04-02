@@ -29,6 +29,12 @@
       "title": "Enable alphabetic sorting",
       "type": "bool",
       "value": false
+    },
+    {
+      "name": "groupCloseTimeout",
+      "title": "Closing group timeout",
+      "type": "integer",
+      "value": 0
     }
   ]
 }

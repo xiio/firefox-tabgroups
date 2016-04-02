@@ -117,6 +117,18 @@ ul, li {
     top: 6px;
   }
 
+  .group.closing .group-controls .group-close,
+  .group.closing:hover .group-controls .group-close,
+  .group.closing .group-controls .fa-chevron-down,
+  .group.closing .group-controls .group-edit {
+    display: none;
+  }
+
+  .group.closing .group-title {
+    color: #CCC;
+    text-decoration: line-through;
+  }
+
 .group:hover .group-title {
   padding-right: 55px;
 }
@@ -130,3 +142,13 @@ ul, li {
     .group:hover .group-controls .group-edit {
       display: inline-block;
     }
+
+  .group.closing .group-controls .group-close-undo-timer,
+  .group.closing .group-controls .group-close-undo {
+    color: #666;
+  }
+
+  .group.closing .group-controls:hover .group-close-undo-timer,
+  .group.closing .group-controls:hover .group-close-undo {
+	color: #000;
+  }
