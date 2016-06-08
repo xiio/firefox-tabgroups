@@ -1,6 +1,5 @@
 const GroupControls = React.createClass({
   propTypes: {
-    closeTimer: React.PropTypes.number,
     expanded: React.PropTypes.bool.isRequired,
     onClose: React.PropTypes.func,
     onEdit: React.PropTypes.func,
@@ -35,10 +34,6 @@ const GroupControls = React.createClass({
 
   getClosingControls: function() {
     return [
-      React.DOM.span(
-        {className: "group-close-undo-timer"},
-        this.props.closeTimer
-      ),
       React.DOM.i({
         className: "group-close-undo fa fa-fw fa-undo",
         onClick: this.props.onUndoCloseClick

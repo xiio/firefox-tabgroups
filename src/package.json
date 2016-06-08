@@ -32,9 +32,10 @@
     },
     {
       "name": "groupCloseTimeout",
-      "title": "Closing group timeout",
+      "title": "Closing group delay",
+      "description": "Delay in seconds to wait before the group gets actually closed.",
       "type": "integer",
-      "value": 0
+      "value": 3
     }
   ]
 }

@@ -14,7 +14,6 @@ const Group = React.createClass({
 
   getInitialState: function() {
     return {
-      closeTimer: this.props.closeTimeout,
       closing: false,
       editing: false,
       expanded: false,
@@ -82,7 +81,6 @@ const Group = React.createClass({
           React.createElement(
             GroupControls,
             {
-              closeTimer: this.state.closeTimer,
               closing: this.state.closing,
               editing: this.state.editing,
               expanded: this.state.expanded,
@@ -113,7 +111,6 @@ const Group = React.createClass({
     event.stopPropagation();
     this.setState({editing: false});
     this.setState({closing: true});
-    this.setState({closeTimer: this.props.closeTimeout});
 
     let group = this;
 
@@ -122,13 +119,9 @@ const Group = React.createClass({
       return;
     }
 
-    let timer = setInterval(function() {
-      group.setState({closeTimer: --group.state.closeTimer});
-      if (group.state.closeTimer <= 0) {
-        group.props.onGroupCloseClick(group.props.group.id);
-        clearInterval(timer);
-      }
-    }, 1000);
+    setTimeout(function() {
+      group.props.onGroupCloseClick(group.props.group.id);
+    }, this.props.closeTimeout * 1000);
   },
 
   handleGroupClick: function(event) {
@@ -214,6 +207,5 @@ const Group = React.createClass({
     event.stopPropagation();
 
     this.setState({closing: false});
-    this.setState({closeTimer: this.props.closeTimeout});
   }
 });
