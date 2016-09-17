@@ -206,10 +206,6 @@ TabManager.prototype = {
     return recentlyAddedGroup;
   },
 
-  getGroupTabCount: function(tabBrowser, groupID) {
-    return this._storage.getTabIndexesByGroup(tabBrowser, groupID).length;
-  },
-
   /**
    * Closes a group and all attached tabs
    *

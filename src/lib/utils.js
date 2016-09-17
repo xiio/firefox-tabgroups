@@ -38,17 +38,3 @@ exports.themeSwitch = function(object) {
 
   return retValue;
 };
-
-/**
- * Confirm prompt service.
- *
- * @param {String} title - title of confirm prompt
- * @param {String} message - question
- * @returns {boolean} TRUE if user confirm, FALSE otherwise
- */
-exports.confirm = function(title, message) {
-  let prompts = Cc["@mozilla.org/embedcomp/prompt-service;1"]
-                      .getService(Ci.nsIPromptService);
-
-  return prompts.confirm(null, title, message);
-};
